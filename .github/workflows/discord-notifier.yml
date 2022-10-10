@@ -1,0 +1,16 @@
+name: Notify github activity on discord
+
+on:
+  repository_dispatch:
+    types: [org-workflow-bot]  # <-- requirement to trigger central workflows
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Discord notification
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      uses: Ilshidur/action-discord@08d9328
+      with:
+        args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
